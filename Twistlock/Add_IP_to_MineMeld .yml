@@ -1,0 +1,185 @@
+id: b61c6191-b4f7-4ef6-8530-08e31cc777c6
+version: 97
+name: Add IP to MineMeld
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: a32eda77-db1b-47cd-8378-0062a18f1983
+    type: start
+    task:
+      id: a32eda77-db1b-47cd-8378-0062a18f1983
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 65
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "1":
+    id: "1"
+    taskid: 29f95364-b874-4f94-8d81-d1e82ab430f3
+    type: regular
+    task:
+      id: 29f95364-b874-4f94-8d81-d1e82ab430f3
+      version: -1
+      name: Query Minemeld for IP
+      description: Get indicator from a miner's list
+      script: Palo Alto Minemeld|||minemeld-get-indicator-from-miner
+      type: regular
+      iscommand: true
+      brand: Palo Alto Minemeld
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      indicator:
+        complex:
+          root: ${inputs
+          accessor: MM_IP}
+      miner:
+        simple: localDB-hs
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 225
+        }
+      }
+    note: true
+    timertriggers: []
+    ignoreworker: false
+  "3":
+    id: "3"
+    taskid: 55cb06ab-3dc1-4244-8ddf-94745ebf8a89
+    type: condition
+    task:
+      id: 55cb06ab-3dc1-4244-8ddf-94745ebf8a89
+      version: -1
+      name: Is the IP on Minemeld?
+      description: Get indicator from a miner's list
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "11"
+      "yes":
+      - "12"
+    separatecontext: false
+    conditions:
+    - label: "yes"
+      condition:
+      - - operator: isEqualString
+          left:
+            value:
+              complex:
+                root: MineMeld
+                accessor: Indicators.indicator
+            iscontext: true
+          right:
+            value:
+              simple: inputs.MM_IP
+            iscontext: true
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 400
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "11":
+    id: "11"
+    taskid: 3efe07ab-db67-468d-81c9-5747fca91d52
+    type: regular
+    task:
+      id: 3efe07ab-db67-468d-81c9-5747fca91d52
+      version: -1
+      name: Add IP to MineMeld
+      description: Add indicator to a miner.
+      script: Palo Alto Minemeld|||minemeld-add-to-miner
+      type: regular
+      iscommand: true
+      brand: Palo Alto Minemeld
+    nexttasks:
+      '#none#':
+      - "12"
+    scriptarguments:
+      comment:
+        simple: From Demisto G
+      indicator:
+        complex:
+          root: inputs.MM_IP
+      miner:
+        complex:
+          root: MineMeld
+          accessor: Miner.name
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 595
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "12":
+    id: "12"
+    taskid: 255880ad-6f2d-444c-8a3e-bdc87236573e
+    type: title
+    task:
+      id: 255880ad-6f2d-444c-8a3e-bdc87236573e
+      version: -1
+      name: End
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 845
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 845,
+        "width": 380,
+        "x": 50,
+        "y": 65
+      }
+    }
+  }
+inputs:
+- key: MM_IP
+  value:
+    complex:
+      root: TwistlockIP
+  required: false
+  description: ""
+outputs: []
+sourceplaybookid: 93e23d7d-969d-4dd2-8be3-2e7454c59266
