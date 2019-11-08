@@ -48,6 +48,7 @@ script:
     import json
     import base64
     import datetime
+    from datetime import datetime, timedelta
 
     # disable insecure warnings
     requests.packages.urllib3.disable_warnings()
@@ -67,7 +68,6 @@ script:
         }
 
 
-
     if demisto.command() == 'test-module':
         res = requests.get(f'{SERVER}:{PORT}/api/v1/_ping', auth=AUTH)
         if res.text == 'OK':
@@ -77,52 +77,26 @@ script:
             sys.exit(1)
 
     if demisto.command() == 'fetch-incidents':
-        # days_ago = datetime.datetime.now() - timedelta(days=3)
-        # start_time = days_ago.time()
-        now = datetime.datetime.utcnow() - timedelta(days=3)
-        start_time = now.isoformat('T') + 'Z'
-        last_run = demisto.getLastRun()
-        if last_run and 'start_time' in last_run:
-            start_time = last_run.get('start_time')
-
-        # if last_fetch_time:
-        if start_time:
-            PARAMS['from'] = start_time
+        start_time = datetime.utcnow() - timedelta(minutes = 1)
 
         incidents = []
         res = requests.get(f'{SERVER}:{PORT}/api/v1/audits/runtime/container/download',
-        # res = requests.get(f'{SERVER}:{PORT}/api/v1/audits/incidents/download',
-        # res = requests.get(f'{SERVER}:{PORT}/api/v1/audits/incidents',
                                                                    stream = True,
                                                                    auth = AUTH,
                                                                    params = PARAMS)
 
         for line in res.iter_lines():
             audit = json.loads(line)
-            audit["api"] = '/api/v1/audits/runtime/container/download'
-            incidents.append({'name': "Twistlock Container: "+ audit['attack'],
-                              'occurred': audit['date'],
-                              'rawJSON': json.dumps(audit)
-                              })
-
-        # res_json = res.json()
-        # audit = res_json[0]
-        # for element in audit['audits']:
-        #     incidents.append({'name': "Twistlock Container: ",
-        #                         #   'occurred': audit['date'],
-        #                           'rawJSON': json.dumps(element)
-        #                           })
+            audit_time = datetime.strptime(audit['date'], "%Y-%m-%dT%H:%M:%S.%fZ")
+            # if audit_time > start_time and audit_time < start_time + timedelta(minutes = 5):
+            if audit_time > start_time:
+                audit["api"] = '/api/v1/audits/runtime/container/download'
+                incidents.append({'name': "Twistlock Container: " + audit['attack'],
+                                  'occurred': audit['date'],
+                                  'rawJSON': json.dumps(audit)
+                                  })
 
         demisto.incidents(incidents)
-        # demisto.setLastRun({
-        #             # 'last_fetch_time': datetime.datetime.utcnow().isoformat('T') + 'Z'
-        #             'start_time': datetime.datetime.utcnow().isoformat('T') + 'Z'
-        #         })
-
-        demisto.setLastRun({
-            'start_time': datetime.datetime.utcnow().isoformat('T') + 'Z'
-            })
-
         sys.exit(0)
 
     if demisto.command() == 'twistlock-get-container-scan-report':
