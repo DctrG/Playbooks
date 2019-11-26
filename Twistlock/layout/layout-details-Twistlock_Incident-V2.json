@@ -1,0 +1,534 @@
+{
+	"TypeName": "Twistlock_Incident",
+	"kind": "details",
+	"layout": {
+		"TypeName": "",
+		"commitMessage": "",
+		"id": "Twistlock_Incident",
+		"kind": "details",
+		"modified": "2019-11-26T12:05:18.646213697+08:00",
+		"name": "",
+		"prevKind": "details",
+		"prevTypeId": "Twistlock_Incident",
+		"shouldCommit": false,
+		"sortValues": null,
+		"system": false,
+		"tabs": [
+			{
+				"id": "summary",
+				"name": "Legacy Summary",
+				"type": "summary"
+			},
+			{
+				"id": "caseinfoid",
+				"name": "Incident Info",
+				"sections": [
+					{
+						"displayType": "ROW",
+						"h": 2,
+						"i": "caseinfoid-fce71720-98b0-11e9-97d7-ed26ef9e46c8",
+						"isVisible": true,
+						"items": [
+							{
+								"endCol": 2,
+								"fieldId": "type",
+								"height": 24,
+								"id": "incident-type-field",
+								"index": 0,
+								"startCol": 0
+							},
+							{
+								"endCol": 2,
+								"fieldId": "severity",
+								"height": 24,
+								"id": "incident-severity-field",
+								"index": 1,
+								"startCol": 0
+							},
+							{
+								"endCol": 2,
+								"fieldId": "owner",
+								"height": 24,
+								"id": "incident-owner-field",
+								"index": 2,
+								"startCol": 0
+							},
+							{
+								"endCol": 2,
+								"fieldId": "dbotsource",
+								"height": 24,
+								"id": "incident-source-field",
+								"index": 3,
+								"startCol": 0
+							},
+							{
+								"endCol": 2,
+								"fieldId": "sourcebrand",
+								"height": 24,
+								"id": "incident-sourceBrand-field",
+								"index": 4,
+								"startCol": 0
+							},
+							{
+								"endCol": 2,
+								"fieldId": "sourceinstance",
+								"height": 24,
+								"id": "incident-sourceInstance-field",
+								"index": 5,
+								"startCol": 0
+							},
+							{
+								"endCol": 2,
+								"fieldId": "playbookid",
+								"height": 24,
+								"id": "incident-playbookId-field",
+								"index": 6,
+								"startCol": 0
+							}
+						],
+						"moved": false,
+						"name": "Case Details",
+						"static": false,
+						"w": 1,
+						"x": 0,
+						"y": 8
+					},
+					{
+						"h": 2,
+						"i": "caseinfoid-61263cc0-98b1-11e9-97d7-ed26ef9e46c8",
+						"moved": false,
+						"name": "Notes",
+						"static": false,
+						"type": "notes",
+						"w": 1,
+						"x": 2,
+						"y": 6
+					},
+					{
+						"displayType": "ROW",
+						"h": 2,
+						"i": "caseinfoid-6aabad20-98b1-11e9-97d7-ed26ef9e46c8",
+						"moved": false,
+						"name": "Work Plan",
+						"static": false,
+						"type": "workplan",
+						"w": 1,
+						"x": 1,
+						"y": 8
+					},
+					{
+						"displayType": "ROW",
+						"h": 2,
+						"i": "caseinfoid-770ec200-98b1-11e9-97d7-ed26ef9e46c8",
+						"isVisible": true,
+						"moved": false,
+						"name": "Linked Incidents",
+						"static": false,
+						"type": "linkedIncidents",
+						"w": 1,
+						"x": 1,
+						"y": 14
+					},
+					{
+						"displayType": "ROW",
+						"h": 2,
+						"i": "caseinfoid-842632c0-98b1-11e9-97d7-ed26ef9e46c8",
+						"moved": false,
+						"name": "Child Incidents",
+						"static": false,
+						"type": "childInv",
+						"w": 1,
+						"x": 2,
+						"y": 10
+					},
+					{
+						"displayType": "ROW",
+						"h": 2,
+						"i": "caseinfoid-4a31afa0-98ba-11e9-a519-93a53c759fe0",
+						"moved": false,
+						"name": "Evidence",
+						"static": false,
+						"type": "evidence",
+						"w": 1,
+						"x": 2,
+						"y": 8
+					},
+					{
+						"displayType": "ROW",
+						"h": 2,
+						"hideName": false,
+						"i": "caseinfoid-7717e580-9bed-11e9-9a3f-8b4b2158e260",
+						"moved": false,
+						"name": "Team Members",
+						"static": false,
+						"type": "team",
+						"w": 1,
+						"x": 2,
+						"y": 12
+					},
+					{
+						"displayType": "ROW",
+						"h": 2,
+						"i": "caseinfoid-7ce69dd0-a07f-11e9-936c-5395a1acf11e",
+						"moved": false,
+						"name": "Indicators",
+						"query": "",
+						"queryType": "input",
+						"static": false,
+						"type": "indicators",
+						"w": 2,
+						"x": 0,
+						"y": 12
+					},
+					{
+						"displayType": "CARD",
+						"h": 2,
+						"i": "caseinfoid-ac32f620-a0b0-11e9-b27f-13ae1773d289",
+						"items": [
+							{
+								"endCol": 1,
+								"fieldId": "occurred",
+								"height": 24,
+								"id": "incident-occurred-field",
+								"index": 0,
+								"startCol": 0
+							},
+							{
+								"endCol": 1,
+								"fieldId": "dbotmodified",
+								"height": 24,
+								"id": "incident-modified-field",
+								"index": 1,
+								"startCol": 0
+							},
+							{
+								"endCol": 2,
+								"fieldId": "dbotduedate",
+								"height": 24,
+								"id": "incident-dueDate-field",
+								"index": 2,
+								"startCol": 0
+							},
+							{
+								"endCol": 2,
+								"fieldId": "dbotcreated",
+								"height": 24,
+								"id": "incident-created-field",
+								"index": 0,
+								"startCol": 1
+							},
+							{
+								"endCol": 2,
+								"fieldId": "dbotclosed",
+								"height": 24,
+								"id": "incident-closed-field",
+								"index": 1,
+								"startCol": 1
+							}
+						],
+						"moved": false,
+						"name": "Timeline Information",
+						"static": false,
+						"w": 1,
+						"x": 0,
+						"y": 10
+					},
+					{
+						"displayType": "ROW",
+						"h": 2,
+						"i": "caseinfoid-88e6bf70-a0b1-11e9-b27f-13ae1773d289",
+						"isVisible": true,
+						"items": [
+							{
+								"endCol": 2,
+								"fieldId": "dbotclosed",
+								"height": 24,
+								"id": "incident-dbotClosed-field",
+								"index": 0,
+								"startCol": 0
+							},
+							{
+								"endCol": 2,
+								"fieldId": "closereason",
+								"height": 24,
+								"id": "incident-closeReason-field",
+								"index": 1,
+								"startCol": 0
+							},
+							{
+								"endCol": 2,
+								"fieldId": "closenotes",
+								"height": 24,
+								"id": "incident-closeNotes-field",
+								"index": 2,
+								"startCol": 0
+							}
+						],
+						"moved": false,
+						"name": "Closing Information",
+						"static": false,
+						"w": 1,
+						"x": 0,
+						"y": 14
+					},
+					{
+						"displayType": "CARD",
+						"h": 2,
+						"i": "caseinfoid-e54b1770-a0b1-11e9-b27f-13ae1773d289",
+						"isVisible": true,
+						"items": [
+							{
+								"endCol": 2,
+								"fieldId": "details",
+								"height": 24,
+								"id": "incident-details-field",
+								"index": 0,
+								"startCol": 0
+							}
+						],
+						"moved": false,
+						"name": "Investigation Data",
+						"static": false,
+						"w": 1,
+						"x": 1,
+						"y": 10
+					},
+					{
+						"displayType": "ROW",
+						"h": 2,
+						"hideName": false,
+						"i": "caseinfoid-103d52a0-05e7-11ea-8afe-718ce2bd9b49",
+						"items": [
+							{
+								"dropEffect": "move",
+								"endCol": 3,
+								"fieldId": "alertseverity",
+								"height": 24,
+								"id": "30e42b80-05e9-11ea-8afe-718ce2bd9b49",
+								"index": 0,
+								"listId": "caseinfoid-103d52a0-05e7-11ea-8afe-718ce2bd9b49",
+								"startCol": 0
+							},
+							{
+								"dropEffect": "move",
+								"endCol": 3,
+								"fieldId": "alertcategory",
+								"height": 24,
+								"id": "2a579ab0-05e7-11ea-8afe-718ce2bd9b49",
+								"index": 1,
+								"listId": "caseinfoid-103d52a0-05e7-11ea-8afe-718ce2bd9b49",
+								"startCol": 0
+							},
+							{
+								"endCol": 3,
+								"fieldId": "attacktype",
+								"height": 24,
+								"id": "35005560-05e7-11ea-8afe-718ce2bd9b49",
+								"index": 2,
+								"startCol": 0
+							},
+							{
+								"dropEffect": "move",
+								"endCol": 5,
+								"fieldId": "alertdescription",
+								"height": 48,
+								"id": "54a5aeb0-05e7-11ea-8afe-718ce2bd9b49",
+								"index": 3,
+								"listId": "caseinfoid-103d52a0-05e7-11ea-8afe-718ce2bd9b49",
+								"startCol": 1
+							},
+							{
+								"endCol": 5,
+								"fieldId": "alertdescriptionextended",
+								"height": 48,
+								"id": "14e58500-0747-11ea-8efe-d7d045ffa47a",
+								"index": 4,
+								"startCol": 1
+							},
+							{
+								"dropEffect": "move",
+								"endCol": 6,
+								"fieldId": "containername",
+								"height": 24,
+								"id": "4061d8c0-05e7-11ea-8afe-718ce2bd9b49",
+								"index": 0,
+								"listId": "caseinfoid-103d52a0-05e7-11ea-8afe-718ce2bd9b49",
+								"startCol": 3
+							},
+							{
+								"dropEffect": "move",
+								"endCol": 6,
+								"fieldId": "containerid",
+								"height": 24,
+								"id": "3e9926b0-05e7-11ea-8afe-718ce2bd9b49",
+								"index": 1,
+								"listId": "caseinfoid-103d52a0-05e7-11ea-8afe-718ce2bd9b49",
+								"startCol": 3
+							},
+							{
+								"dropEffect": "move",
+								"endCol": 6,
+								"fieldId": "imagename",
+								"height": 24,
+								"id": "4552f3f0-05e7-11ea-8afe-718ce2bd9b49",
+								"index": 2,
+								"listId": "caseinfoid-103d52a0-05e7-11ea-8afe-718ce2bd9b49",
+								"startCol": 3
+							}
+						],
+						"maxW": 3,
+						"minH": 1,
+						"minW": 1,
+						"moved": false,
+						"name": "Twistlock Alert Details",
+						"static": false,
+						"w": 3,
+						"x": 0,
+						"y": 0
+					},
+					{
+						"displayType": "ROW",
+						"h": 2,
+						"hideName": false,
+						"i": "caseinfoid-b9d4bd20-05e8-11ea-8afe-718ce2bd9b49",
+						"items": [
+							{
+								"endCol": 6,
+								"fieldId": "containerscanresults",
+								"height": 110,
+								"id": "db10bc00-05e8-11ea-8afe-718ce2bd9b49",
+								"index": 0,
+								"startCol": 0
+							}
+						],
+						"maxW": 3,
+						"minH": 1,
+						"minW": 1,
+						"moved": false,
+						"name": "Twistlock Container Compliance Scan",
+						"static": false,
+						"w": 3,
+						"x": 0,
+						"y": 2
+					},
+					{
+						"displayType": "ROW",
+						"h": 2,
+						"hideName": false,
+						"i": "caseinfoid-00cfeb40-06a8-11ea-87af-2b34b40f2bd2",
+						"items": [
+							{
+								"endCol": 6,
+								"fieldId": "imagescanresults",
+								"height": 110,
+								"id": "16ed6330-06a8-11ea-87af-2b34b40f2bd2",
+								"index": 0,
+								"startCol": 0
+							}
+						],
+						"maxW": 3,
+						"minH": 1,
+						"minW": 1,
+						"moved": false,
+						"name": "Image Vulnerability Scan",
+						"static": false,
+						"w": 3,
+						"x": 0,
+						"y": 4
+					},
+					{
+						"displayType": "CARD",
+						"h": 2,
+						"hideName": false,
+						"i": "caseinfoid-2af744a0-082d-11ea-a6f1-af7b014959a2",
+						"items": [
+							{
+								"endCol": 2,
+								"fieldId": "relatedalerts",
+								"height": 24,
+								"id": "40028940-082d-11ea-a6f1-af7b014959a2",
+								"index": 0,
+								"startCol": 0
+							}
+						],
+						"maxW": 3,
+						"minH": 1,
+						"minW": 1,
+						"moved": false,
+						"name": "Related Container Alerts",
+						"static": false,
+						"w": 1,
+						"x": 0,
+						"y": 6
+					},
+					{
+						"displayType": "ROW",
+						"h": 2,
+						"hideName": false,
+						"i": "caseinfoid-7b058340-0831-11ea-a6f1-af7b014959a2",
+						"items": [
+							{
+								"endCol": 2,
+								"fieldId": "autofocustaggroups",
+								"height": 48,
+								"id": "c677b670-0833-11ea-a6f1-af7b014959a2",
+								"index": 0,
+								"startCol": 0
+							},
+							{
+								"dropEffect": "move",
+								"endCol": 2,
+								"fieldId": "autofocustags",
+								"height": 48,
+								"id": "aebe7ac0-0831-11ea-a6f1-af7b014959a2",
+								"index": 1,
+								"listId": "caseinfoid-7b058340-0831-11ea-a6f1-af7b014959a2",
+								"startCol": 0
+							}
+						],
+						"maxW": 3,
+						"minH": 1,
+						"minW": 1,
+						"moved": false,
+						"name": "Autofocus Intel",
+						"static": false,
+						"w": 1,
+						"x": 1,
+						"y": 6
+					}
+				],
+				"type": "custom"
+			},
+			{
+				"id": "warRoom",
+				"name": "War Room",
+				"type": "warRoom"
+			},
+			{
+				"id": "workPlan",
+				"name": "Work Plan",
+				"type": "workPlan"
+			},
+			{
+				"id": "evidenceBoard",
+				"name": "Evidence Board",
+				"type": "evidenceBoard"
+			},
+			{
+				"id": "relatedIncidents",
+				"name": "Related Incidents",
+				"type": "relatedIncidents"
+			},
+			{
+				"id": "canvas",
+				"name": "Canvas",
+				"type": "canvas"
+			}
+		],
+		"typeId": "Twistlock_Incident",
+		"vcShouldIgnore": false,
+		"version": 20
+	},
+	"typeId": "Twistlock_Incident",
+	"version": -1
+}

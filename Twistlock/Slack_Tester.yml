@@ -1,0 +1,216 @@
+id: 25cb9316-c021-4561-8393-04b01cbbfb7f
+version: 48
+name: Slack_Tester
+description: When there are three failed login attempts to Demisto that originate
+  from the same user ID, a direct message is sent to the user on Slack requesting
+  that they confirm the activity. If the reply is "no", then the incident severity
+  is set to "high". If the reply is "yes", then another direct message is sent to
+  the user asking if they require a password reset in AD.
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: e0772674-d7ff-43df-8075-a871655a3f9b
+    type: start
+    task:
+      id: e0772674-d7ff-43df-8075-a871655a3f9b
+      version: -1
+      name: start_task
+      type: start
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "2"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 50
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "2":
+    id: "2"
+    taskid: e159a308-20f0-42d6-82e4-085c469c4aee
+    type: regular
+    task:
+      id: e159a308-20f0-42d6-82e4-085c469c4aee
+      version: -1
+      name: Ask user to confirm command execution
+      description: Sends the user a direct message in Slack requesting that they confirm
+        the account activity. The message includes predefined reply options. The response
+        can also close a task (might be conditional) in a playbook.
+      scriptName: SlackAsk
+      clonedfrom: 7a39f05d-23c9-412d-8e36-3dd1ba0dd2f2
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      additionalOptions: {}
+      channel:
+        simple: demisto
+      defaultResponse: {}
+      lifetime: {}
+      message:
+        simple: Did you run the command ${incident.labels.message} ?
+      option1: {}
+      option2: {}
+      persistent: {}
+      reply: {}
+      replyEntriesTag:
+        simple: SlackTest
+      responseType: {}
+      task:
+        simple: "3"
+      user: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 270
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "3":
+    id: "3"
+    taskid: b02cd593-8b2f-4f93-8e95-e90a5f89fbcb
+    type: condition
+    task:
+      id: b02cd593-8b2f-4f93-8e95-e90a5f89fbcb
+      version: -1
+      name: Did they user run the command?
+      description: Check whether the values provided in arguments are equal. If either
+        of the arguments are missing, no is returned.
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "5"
+      "yes":
+      - "6"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 465
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "4":
+    id: "4"
+    taskid: 673628c8-2760-46dc-8eb0-d356211d99c7
+    type: title
+    task:
+      id: 673628c8-2760-46dc-8eb0-d356211d99c7
+      version: -1
+      name: End
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 895
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "5":
+    id: "5"
+    taskid: f66839fe-f78b-4b95-86f4-2db29ba3b280
+    type: regular
+    task:
+      id: f66839fe-f78b-4b95-86f4-2db29ba3b280
+      version: -1
+      name: Set context to NO
+      description: Sets key/value pair in incident's context
+      scriptName: SetContext
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      key:
+        simple: SlackAnswer
+      value:
+        simple: "NO"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 720
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "6":
+    id: "6"
+    taskid: a8eca72b-c6c1-4787-8ef4-edd6e2e2c84c
+    type: regular
+    task:
+      id: a8eca72b-c6c1-4787-8ef4-edd6e2e2c84c
+      version: -1
+      name: Set context to YES
+      description: Sets key/value pair in incident's context
+      scriptName: SetContext
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "4"
+    scriptarguments:
+      key:
+        simple: SlackAnswer
+      value:
+        simple: "YES"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 720
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 910,
+        "width": 810,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs:
+- contextPath: Tester
+  description: User's answer to question on Slack
+  type: unknown
+sourceplaybookid: Failed Login Playbook - Slack v2

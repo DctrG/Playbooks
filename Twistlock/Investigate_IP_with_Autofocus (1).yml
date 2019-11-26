@@ -1,0 +1,523 @@
+id: 05d0c728-1332-4603-86f2-f725496884e2
+version: 31
+name: Investigate IP with Autofocus
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 8c717da6-fc16-45a2-837d-bc0f07fb4934
+    type: start
+    task:
+      id: 8c717da6-fc16-45a2-837d-bc0f07fb4934
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "37"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 377.5,
+          "y": 65
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "37":
+    id: "37"
+    taskid: 8b38ea3b-afd2-4603-86d7-f382bf590bda
+    type: regular
+    task:
+      id: 8b38ea3b-afd2-4603-86d7-f382bf590bda
+      version: -1
+      name: Search IP in Autofocus
+      description: Searches for samples in AutoFocus. To view results, run the autofocus-samples-search-results
+        command with the returned AF Cookie. The AF Cookie expires 120 seconds after
+        the search completes.
+      script: AutoFocus V2|||autofocus-search-samples
+      type: regular
+      iscommand: true
+      brand: AutoFocus V2
+    nexttasks:
+      '#none#':
+      - "51"
+    scriptarguments:
+      domain: {}
+      file_hash: {}
+      first_seen: {}
+      ip:
+        complex:
+          root: ${ResolvedIP}
+      last_updated: {}
+      max_results:
+        simple: "10"
+      order: {}
+      query: {}
+      scope:
+        simple: Public
+      sort: {}
+      url: {}
+      wildfire_verdict: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 377.5,
+          "y": 225
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "39":
+    id: "39"
+    taskid: fca26a66-45a2-4d79-84b7-c20ea45e148d
+    type: regular
+    task:
+      id: fca26a66-45a2-4d79-84b7-c20ea45e148d
+      version: -1
+      name: Get results from Autofocus
+      description: Returns results of a previous samples search.
+      script: AutoFocus V2|||autofocus-samples-search-results
+      type: regular
+      iscommand: true
+      brand: AutoFocus V2
+    nexttasks:
+      '#none#':
+      - "50"
+    scriptarguments:
+      af_cookie:
+        complex:
+          root: AutoFocus
+          accessor: SamplesSearch.AFCookie
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 377.5,
+          "y": 575
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "42":
+    id: "42"
+    taskid: 37e62516-495f-4bed-88ad-0040ef36a137
+    type: regular
+    task:
+      id: 37e62516-495f-4bed-88ad-0040ef36a137
+      version: -1
+      name: Filter and show actionable Aufofocus information
+      description: Prints text to war room (Markdown supported)
+      scriptName: Print
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "53"
+      - "54"
+    scriptarguments:
+      value:
+        complex:
+          root: ${AutoFocus
+          accessor: SamplesResults.[].tag_groups}
+          transformers:
+          - operator: uniq
+          - operator: join
+            args:
+              separator:
+                value:
+                  simple: ', '
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 925
+        }
+      }
+    note: true
+    evidencedata:
+      description:
+        simple: Autofocus Group Tags related to this suspicious IP
+      occurred: {}
+      customfields: {}
+    timertriggers: []
+    ignoreworker: false
+  "44":
+    id: "44"
+    taskid: cd082698-2328-4a2e-8f68-e09eeec5d5cb
+    type: regular
+    task:
+      id: cd082698-2328-4a2e-8f68-e09eeec5d5cb
+      version: -1
+      name: Set Context Malicious
+      description: Sets a value into the context with the given context key
+      scriptName: Set
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "45"
+    scriptarguments:
+      append: {}
+      key:
+        simple: AF_Verdict
+      value:
+        simple: Malicious
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 162.5,
+          "y": 1450
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "45":
+    id: "45"
+    taskid: aff566e1-f8b7-470f-883d-36f1e8a4b4e0
+    type: title
+    task:
+      id: aff566e1-f8b7-470f-883d-36f1e8a4b4e0
+      version: -1
+      name: End
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 377.5,
+          "y": 1625
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "46":
+    id: "46"
+    taskid: 12440e6d-4b26-450b-89f3-c7deb36c3619
+    type: regular
+    task:
+      id: 12440e6d-4b26-450b-89f3-c7deb36c3619
+      version: -1
+      name: Set Context Benign
+      description: Sets a value into the context with the given context key
+      scriptName: Set
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "45"
+    scriptarguments:
+      append: {}
+      key:
+        simple: AF_Verdict
+      value:
+        simple: Benign
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 695,
+          "y": 1450
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "49":
+    id: "49"
+    taskid: 16d6d2bf-1163-4827-8a62-4a7a2c959ca4
+    type: condition
+    task:
+      id: 16d6d2bf-1163-4827-8a62-4a7a2c959ca4
+      version: -1
+      name: Is the IP Malicious?
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "46"
+      "yes":
+      - "44"
+    separatecontext: false
+    conditions:
+    - label: "yes"
+      condition:
+      - - operator: match
+          left:
+            value:
+              complex:
+                root: AutofocusGroupTags
+            iscontext: true
+          right:
+            value:
+              simple: Malware|Ransomware|HackingTool|Trojan|Rootkit|Wiper|Backdoor|Dropper|Botnet|InfoStealer|Keylogger|Loader|Downloader
+    view: |-
+      {
+        "position": {
+          "x": 265,
+          "y": 1275
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "50":
+    id: "50"
+    taskid: 4b81368f-2acc-4d22-8914-7a718633154e
+    type: condition
+    task:
+      id: 4b81368f-2acc-4d22-8914-7a718633154e
+      version: -1
+      name: Any matches for the indicator in Autofocus?
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "46"
+      "yes":
+      - "42"
+    separatecontext: false
+    conditions:
+    - label: "YES"
+      condition:
+      - - operator: notContainsGeneral
+          left:
+            value:
+              complex:
+                root: AutoFocus
+                accessor: SamplesResults
+            iscontext: true
+          right:
+            value:
+              simple: '"No entries found that match the query"'
+    view: |-
+      {
+        "position": {
+          "x": 377.5,
+          "y": 750
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "51":
+    id: "51"
+    taskid: b866aad6-3e24-4113-8998-7e6ccc93c67f
+    type: regular
+    task:
+      id: b866aad6-3e24-4113-8998-7e6ccc93c67f
+      version: -1
+      name: Sleep
+      description: Sleep for X seconds
+      scriptName: Sleep
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "39"
+    scriptarguments:
+      seconds:
+        simple: "7"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 377.5,
+          "y": 400
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "52":
+    id: "52"
+    taskid: 6bc9132c-5843-4fef-8092-8adac4b44b36
+    type: playbook
+    task:
+      id: 6bc9132c-5843-4fef-8092-8adac4b44b36
+      version: -1
+      name: AutoFocusPolling
+      description: |-
+        Use this playbook as a sub-playbook to  query PANW Autofocus Threat intelligence system. This sub-playbook is the same as the generic polling sub-playbook besides that it provides outputs in the playbook. The reason for that is that in Autofocus its impossible to query the results of the same query more than once so the outputs have to be in the polling context.
+
+        This playbook implements polling by continuously running the command in Step \#2 until the operation completes.
+        The remote action should have the following structure:
+
+        1. Initiate the operation.
+        2. Poll to check if the operation completed.
+        3. (optional) Get the results of the operation.
+      playbookName: AutoFocusPolling
+      type: playbook
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      AdditionalPollingCommandArgNames: {}
+      AdditionalPollingCommandArgValues: {}
+      Ids:
+        simple: ${AutoFocus.SamplesSearch.AFCookie}
+      Interval:
+        simple: "0.5"
+      PollingCommandArgName:
+        simple: af_cookie
+      PollingCommandName:
+        simple: autofocus-samples-search-results
+      Timeout:
+        simple: "10"
+      dt:
+        simple: AutoFocus.SamplesSearch(val.Status != 'complete').AFCookie
+    separatecontext: true
+    loop:
+      iscommand: false
+      exitCondition: ""
+      wait: 1
+    view: |-
+      {
+        "position": {
+          "x": 807.5,
+          "y": 50
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "53":
+    id: "53"
+    taskid: ce26359e-316d-4ccb-88cd-05310763877c
+    type: regular
+    task:
+      id: ce26359e-316d-4ccb-88cd-05310763877c
+      version: -1
+      name: Add Autofocus Tag Groups to Context
+      description: Sets a value into the context with the given context key
+      scriptName: Set
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "49"
+    scriptarguments:
+      append: {}
+      key:
+        simple: AutofocusGroupTags
+      value:
+        complex:
+          root: ${AutoFocus
+          accessor: SamplesResults.[].tag_groups}
+          transformers:
+          - operator: uniq
+          - operator: join
+            args:
+              separator:
+                value:
+                  simple: ', '
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 50,
+          "y": 1100
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    fieldMapping:
+    - incidentfield: Autofocus Tag Groups
+      output:
+        complex:
+          root: AutofocusGroupTags
+  "54":
+    id: "54"
+    taskid: 18c51160-d120-40ac-81a3-de91cec139b0
+    type: regular
+    task:
+      id: 18c51160-d120-40ac-81a3-de91cec139b0
+      version: -1
+      name: Add Autofocus Tags to Context
+      description: Sets a value into the context with the given context key
+      scriptName: Set
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "49"
+    scriptarguments:
+      append: {}
+      key:
+        simple: AutofocusTags
+      value:
+        complex:
+          root: ${AutoFocus
+          accessor: SamplesResults.[].Tags.[][0]}
+          transformers:
+          - operator: uniq
+          - operator: join
+            args:
+              separator:
+                value:
+                  simple: ','
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 1100
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    fieldMapping:
+    - incidentfield: Autofocus Tags
+      output:
+        complex:
+          root: AutofocusTags
+view: |-
+  {
+    "linkLabelsPosition": {
+      "50_42_yes": 0.6
+    },
+    "paper": {
+      "dimensions": {
+        "height": 1640,
+        "width": 1137.5,
+        "x": 50,
+        "y": 50
+      }
+    }
+  }
+inputs:
+- key: AF_IP
+  value:
+    complex:
+      root: ${ResolvedIP}
+  required: false
+  description: ""
+outputs:
+- contextPath: AF_Verdict
+  description: Autofocus Verdict
+  type: unknown
+sourceplaybookid: 0e4e532d-7c07-4bd1-8de4-da3b74904c31

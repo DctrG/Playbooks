@@ -1,0 +1,629 @@
+id: f4bd59d6-2cbc-45b8-890b-94deaae3c32d
+version: 7
+name: Twistlock Alert IP Investigation and Response
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 78b1deeb-cb88-4ff1-8c5d-2aede96e1e63
+    type: start
+    task:
+      id: 78b1deeb-cb88-4ff1-8c5d-2aede96e1e63
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "44"
+      - "43"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 800,
+          "y": -430
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "33":
+    id: "33"
+    taskid: 39449743-9f8b-48e5-83fb-9f0959f29720
+    type: playbook
+    task:
+      id: 39449743-9f8b-48e5-83fb-9f0959f29720
+      version: -1
+      name: MineMeld IP Investigation and Response
+      playbookName: MineMeld and Firewall EDL Response
+      type: playbook
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "57"
+    separatecontext: true
+    view: |-
+      {
+        "position": {
+          "x": 542.5,
+          "y": 680
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "43":
+    id: "43"
+    taskid: 62dcfb5e-f78d-422d-8835-1d0304fa6d7c
+    type: playbook
+    task:
+      id: 62dcfb5e-f78d-422d-8835-1d0304fa6d7c
+      version: -1
+      name: Investigate IP with Autofocus
+      playbookName: Investigate IP with Autofocus
+      type: playbook
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "45"
+    scriptarguments:
+      AF_IP:
+        simple: ${IP.Address}
+    separatecontext: false
+    loop:
+      iscommand: false
+      exitCondition: ""
+      wait: 1
+    view: |-
+      {
+        "position": {
+          "x": 1030,
+          "y": -170
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "44":
+    id: "44"
+    taskid: 26a8d95d-54b7-4954-890f-6afe5f0432f9
+    type: playbook
+    task:
+      id: 26a8d95d-54b7-4954-890f-6afe5f0432f9
+      version: -1
+      name: Investigate IP with MineMeld
+      playbookName: Investigate IP with MineMeld
+      type: playbook
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "45"
+    scriptarguments:
+      MM_IP:
+        complex:
+          root: ${ResolvedIP}
+    separatecontext: false
+    loop:
+      iscommand: false
+      exitCondition: ""
+      wait: 1
+    view: |-
+      {
+        "position": {
+          "x": 542.5,
+          "y": -170
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "45":
+    id: "45"
+    taskid: fd13c5b9-fa98-4d4c-85ad-15377c61c02a
+    type: condition
+    task:
+      id: fd13c5b9-fa98-4d4c-85ad-15377c61c02a
+      version: -1
+      name: Is the IP malicious?
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "53"
+      "yes":
+      - "51"
+    separatecontext: false
+    conditions:
+    - label: "yes"
+      condition:
+      - - operator: isEqualString
+          left:
+            value:
+              simple: AF_Verdict
+            iscontext: true
+          right:
+            value:
+              simple: Malicious
+    - label: condition-2
+      condition:
+      - - operator: isEqualString
+          left:
+            value:
+              simple: MineMeldVerdict
+            iscontext: true
+          right:
+            value:
+              simple: Malicious
+    view: |-
+      {
+        "position": {
+          "x": 800,
+          "y": 40
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "46":
+    id: "46"
+    taskid: b441674d-32a9-434c-8fd6-572bfd722741
+    type: title
+    task:
+      id: b441674d-32a9-434c-8fd6-572bfd722741
+      version: -1
+      name: Perform Remediation
+      type: title
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "33"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 542.5,
+          "y": 550
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "47":
+    id: "47"
+    taskid: 7b7a21b3-f374-4b03-837e-85bcf4ea1f33
+    type: title
+    task:
+      id: 7b7a21b3-f374-4b03-837e-85bcf4ea1f33
+      version: -1
+      name: Perform Threat Hunting
+      type: title
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "48"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1120,
+          "y": 550
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "48":
+    id: "48"
+    taskid: 9bd52d57-d0ee-4259-83a4-02375cb9051b
+    type: playbook
+    task:
+      id: 9bd52d57-d0ee-4259-83a4-02375cb9051b
+      version: -1
+      name: Panorama Query Logs
+      description: 'Query Panorama Logs of types: traffic, threat, url, data-filtering
+        and wildfire.'
+      playbookName: Panorama Query Logs
+      type: playbook
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "49"
+    scriptarguments:
+      action: {}
+      addr-dst:
+        simple: ${IP.Address}
+      addr-src: {}
+      filedigest: {}
+      log_type:
+        simple: traffic
+      port-dst: {}
+      query: {}
+      rule: {}
+      time-generated: {}
+      url: {}
+      zone-dst: {}
+      zone-src: {}
+    separatecontext: true
+    loop:
+      iscommand: false
+      exitCondition: ""
+      wait: 1
+    view: |-
+      {
+        "position": {
+          "x": 1120,
+          "y": 680
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "49":
+    id: "49"
+    taskid: c78a089a-fa58-434a-8cc8-434ce4cf803b
+    type: condition
+    task:
+      id: c78a089a-fa58-434a-8cc8-434ce4cf803b
+      version: -1
+      name: Other containers connected to suspicious indicator?
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "57"
+      "yes":
+      - "54"
+    separatecontext: false
+    conditions:
+    - label: "yes"
+      condition:
+      - - operator: isEqualString
+          left:
+            value:
+              simple: a
+            iscontext: true
+          right:
+            value:
+              simple: a
+    view: |-
+      {
+        "position": {
+          "x": 1120,
+          "y": 845
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "50":
+    id: "50"
+    taskid: ed5aedcd-ae07-4880-8059-25993b59cf23
+    type: regular
+    task:
+      id: ed5aedcd-ae07-4880-8059-25993b59cf23
+      version: -1
+      name: Assign Analyst
+      description: |-
+        Assign analyst to incident.
+        By default,  the analyst is picked randomly from the available users, according to the provided roles (if no roles provided, will fetch all users).
+        Otherwise, the analyst will be picked according to the 'assignBy' arguments.
+        machine-learning: DBot will calculated and decide who is the best analyst for the job.
+        top-user: The user that is most commonly owns this type of incident
+        less-busy-user: The less busy analyst will be picked to be the incident owner.
+        online: The analyst is picked randomly from all online analysts, according to the provided roles (if no roles provided, will fetch all users).
+        current: The user that executed the command
+      scriptName: AssignAnalystToIncident
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "46"
+      - "47"
+    scriptarguments:
+      assignBy:
+        simple: machine-learning
+      email: {}
+      roles: {}
+      username: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 800,
+          "y": 375
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "51":
+    id: "51"
+    taskid: 74d3ef26-2aba-4d4f-8793-12c9c157e473
+    type: regular
+    task:
+      id: 74d3ef26-2aba-4d4f-8793-12c9c157e473
+      version: -1
+      name: Set Severity to High
+      description: commands.local.cmd.set.incident
+      script: Builtin|||setIncident
+      type: regular
+      iscommand: true
+      brand: Builtin
+    nexttasks:
+      '#none#':
+      - "50"
+    scriptarguments:
+      addLabels: {}
+      affecteddata: {}
+      affecteddatatype: {}
+      affectedindividualscontactinformation: {}
+      agentid: {}
+      app: {}
+      approximatenumberofaffecteddatasubjects: {}
+      assetid: {}
+      attachmentcount: {}
+      attachmentextension: {}
+      attachmenthash: {}
+      attachmentid: {}
+      attachmentname: {}
+      attachmentsize: {}
+      attachmenttype: {}
+      blockedaction: {}
+      bugtraq: {}
+      city: {}
+      closeNotes: {}
+      closeReason: {}
+      commandline: {}
+      companyaddress: {}
+      companycity: {}
+      companycountry: {}
+      companyhasinsuranceforthebreach: {}
+      companyname: {}
+      companypostalcode: {}
+      contactaddress: {}
+      contactname: {}
+      country: {}
+      countrywherebusinesshasitsmainestablishment: {}
+      countrywherethebreachtookplace: {}
+      criticalassets: {}
+      customFields: {}
+      cve: {}
+      dataencryptionstatus: {}
+      datetimeofthebreach: {}
+      deleteEmptyField: {}
+      dest: {}
+      destntdomain: {}
+      details: {}
+      devicename: {}
+      dpoemailaddress: {}
+      duration: {}
+      emailaddress: {}
+      emailauthenticitycheck: {}
+      emailbcc: {}
+      emailbody: {}
+      emailbodyformat: {}
+      emailbodyhtml: {}
+      emailcc: {}
+      emailclassification: {}
+      emailclientname: {}
+      emailfrom: {}
+      emailhtml: {}
+      emailinreplyto: {}
+      emailkeywords: {}
+      emailmessageid: {}
+      emailreceived: {}
+      emailreplyto: {}
+      emailreturnpath: {}
+      emailsenderip: {}
+      emailsize: {}
+      emailsource: {}
+      emailsubject: {}
+      emailto: {}
+      emailtocount: {}
+      emailurlclicked: {}
+      filehash: {}
+      filename: {}
+      filepath: {}
+      filesize: {}
+      id: {}
+      infectedhosts: {}
+      isolated: {}
+      isthedatasubjecttodpia: {}
+      labels: {}
+      likelyimpact: {}
+      maliciousbehavior: {}
+      maliciouscauseifthecauseisamaliciousattack: {}
+      measurestomitigate: {}
+      name: {}
+      occurred: {}
+      owner: {}
+      parentprocessid: {}
+      phase: {}
+      phishingsubtype: {}
+      pid: {}
+      possiblecauseofthebreach: {}
+      postalcode: {}
+      replacePlaybook: {}
+      roles: {}
+      sectorofaffectedparty: {}
+      severity:
+        simple: High
+      signature: {}
+      sizenumberofemployees: {}
+      sizeturnover: {}
+      sla: {}
+      slaField: {}
+      src: {}
+      srcntdomain: {}
+      srcos: {}
+      srcuser: {}
+      subtype: {}
+      suspiciousip: {}
+      systems: {}
+      telephoneno: {}
+      terminatedaction: {}
+      trapsid: {}
+      triggeredsecurityprofile: {}
+      type: {}
+      user: {}
+      vendorid: {}
+      vendorproduct: {}
+      vulnerabilitycategory: {}
+      whereisdatahosted: {}
+      xdralertcount: {}
+      xdralerts: {}
+      xdrassigneduseremail: {}
+      xdrassigneduserprettyname: {}
+      xdrdescription: {}
+      xdrdetectiontime: {}
+      xdrfileartifacts: {}
+      xdrhighseverityalertcount: {}
+      xdrincidentid: {}
+      xdrlowseverityalertcount: {}
+      xdrmediumseverityalertcount: {}
+      xdrnetworkartifacts: {}
+      xdrnotes: {}
+      xdrresolvecomment: {}
+      xdrstatus: {}
+      xdrurl: {}
+      xdrusercount: {}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 800,
+          "y": 220
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "53":
+    id: "53"
+    taskid: 193cec97-a42a-4a7a-8bd0-5293e0c53949
+    type: regular
+    task:
+      id: 193cec97-a42a-4a7a-8bd0-5293e0c53949
+      version: -1
+      name: Set Severity to Low
+      description: Sets a value into the context with the given context key
+      scriptName: Set
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "57"
+    scriptarguments:
+      append: {}
+      key:
+        complex:
+          root: incident
+          accessor: alertseverity
+      value:
+        simple: Low
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 1420,
+          "y": 220
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "54":
+    id: "54"
+    taskid: 0e2a4bb2-1b64-4586-8502-69725a8caf41
+    type: regular
+    task:
+      id: 0e2a4bb2-1b64-4586-8502-69725a8caf41
+      version: -1
+      name: Severity to Critical
+      type: regular
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "56"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 870,
+          "y": 1040
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "56":
+    id: "56"
+    taskid: 8f5b7c20-a1c3-4254-87a3-2edabe499cf1
+    type: regular
+    task:
+      id: 8f5b7c20-a1c3-4254-87a3-2edabe499cf1
+      version: -1
+      name: Notify Slack and Email
+      type: regular
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 870,
+          "y": 1220
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "57":
+    id: "57"
+    taskid: 3dbf24f3-86c0-440e-8082-eb3d9cef6019
+    type: title
+    task:
+      id: 3dbf24f3-86c0-440e-8082-eb3d9cef6019
+      version: -1
+      name: Done
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 860,
+          "y": 1560
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 2055,
+        "width": 1257.5,
+        "x": 542.5,
+        "y": -430
+      }
+    }
+  }
+inputs: []
+outputs: []
+sourceplaybookid: 0e4e532d-7c07-4bd1-8de4-da3b74904c31
