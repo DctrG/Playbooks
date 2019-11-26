@@ -1,0 +1,127 @@
+{
+	"brandName": "Twistlock_G",
+	"custom": true,
+	"defaultIncidentType": "Twistlock_Incident",
+	"id": "da3f0287-80b9-4e47-870e-ffe3e4d8c185",
+	"incidentSamples": [],
+	"instanceId": "0d0984b6-18bb-4038-8e80-6bc599d7a5a8",
+	"instanceName": "Twistlock_G_Laptop",
+	"isDefault": false,
+	"keyTypeMap": {
+		"/api/v1/audits/incidents": "Twistlock_Incident"
+	},
+	"mapping": {
+		"Twistlock_Incident": {
+			"dontMapEventToLabels": false,
+			"internalMapping": {
+				"Alert Category": {
+					"complex": null,
+					"simple": "category"
+				},
+				"Alert Description": {
+					"complex": null,
+					"simple": "audits.[0].msg"
+				},
+				"Alert Description Extended": {
+					"complex": null,
+					"simple": "audits.[1].msg"
+				},
+				"Alert Severity": {
+					"complex": null,
+					"simple": "audits.[0].severity"
+				},
+				"Alert Type": {
+					"complex": null,
+					"simple": "audits.[0].type"
+				},
+				"Attack Type": {
+					"complex": null,
+					"simple": "audits.[0].attackType"
+				},
+				"Container ID": {
+					"complex": null,
+					"simple": "containerID"
+				},
+				"Container Name": {
+					"complex": {
+						"accessor": "",
+						"filters": [],
+						"root": "containerName",
+						"transformers": [
+							{
+								"args": {
+									"from": {
+										"isContext": false,
+										"value": {
+											"complex": null,
+											"simple": "/"
+										}
+									}
+								},
+								"operator": "substringFrom"
+							}
+						]
+					},
+					"simple": ""
+				},
+				"Hostname": {
+					"complex": null,
+					"simple": "hostname"
+				},
+				"Image ID": {
+					"complex": null,
+					"simple": "imageID"
+				},
+				"Image Name": {
+					"complex": null,
+					"simple": "imageName"
+				},
+				"Process": {
+					"complex": null,
+					"simple": "audits.[0].processPath"
+				},
+				"Process ID": {
+					"complex": null,
+					"simple": "audits.[0].pid"
+				},
+				"Rule Name": {
+					"complex": null,
+					"simple": "audits.[0].ruleName"
+				},
+				"Twistlock Indicator": {
+					"complex": {
+						"accessor": "[0].msg",
+						"filters": [],
+						"root": "audits",
+						"transformers": [
+							{
+								"args": {
+									"from": {
+										"isContext": false,
+										"value": {
+											"complex": null,
+											"simple": "nc "
+										}
+									}
+								},
+								"operator": "substringFrom"
+							}
+						]
+					},
+					"simple": ""
+				},
+				"User Name": {
+					"complex": null,
+					"simple": "audits.[0].user"
+				}
+			}
+		}
+	},
+	"sortValues": null,
+	"transformer": {
+		"complex": null,
+		"simple": "api"
+	},
+	"unclassifiedCases": {},
+	"version": -1
+}

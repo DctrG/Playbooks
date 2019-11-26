@@ -1,0 +1,352 @@
+id: 6cb6fb62-d32b-4a19-8454-88f739bdb9ec
+version: 26
+name: MineMeld and Firewall EDL Response
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: 891554a8-dfbd-4eb2-82d1-6b6ec98dc257
+    type: start
+    task:
+      id: 891554a8-dfbd-4eb2-82d1-6b6ec98dc257
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "33"
+      - "37"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 377.5,
+          "y": 50
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "33":
+    id: "33"
+    taskid: f92c6542-95b5-4be1-8d75-dd36f8420c02
+    type: playbook
+    task:
+      id: f92c6542-95b5-4be1-8d75-dd36f8420c02
+      version: -1
+      name: Add IP to MineMeld
+      playbookName: Add IP to MineMeld
+      type: playbook
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "43"
+    scriptarguments:
+      MM_IP:
+        complex:
+          root: TwistlockIP
+    separatecontext: false
+    loop:
+      iscommand: false
+      exitCondition: ""
+      wait: 1
+    view: |-
+      {
+        "position": {
+          "x": 60,
+          "y": 370
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "34":
+    id: "34"
+    taskid: 94b75bc8-a2f7-4aed-8e68-ae0390b285d6
+    type: playbook
+    task:
+      id: 94b75bc8-a2f7-4aed-8e68-ae0390b285d6
+      version: -1
+      name: Panorama Query Logs
+      description: 'Query Panorama Logs of types: traffic, threat, url, data-filtering
+        and wildfire.'
+      playbookName: Panorama Query Logs
+      type: playbook
+      iscommand: false
+      brand: ""
+    scriptarguments:
+      action: {}
+      addr-dst: {}
+      addr-src: {}
+      filedigest: {}
+      log_type:
+        simple: traffic
+      port-dst: {}
+      query:
+        simple: app eq http
+      rule: {}
+      time-generated: {}
+      url: {}
+      zone-dst: {}
+      zone-src: {}
+    separatecontext: true
+    loop:
+      iscommand: false
+      exitCondition: ""
+      wait: 1
+    view: |-
+      {
+        "position": {
+          "x": -250,
+          "y": 625
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "35":
+    id: "35"
+    taskid: 28afe1fa-f2d1-44be-8bcb-e6ad9849a697
+    type: regular
+    task:
+      id: 28afe1fa-f2d1-44be-8bcb-e6ad9849a697
+      version: -1
+      name: panorama-create-edl
+      description: Creates an external dynamic list.
+      script: Panorama|||panorama-create-edl
+      type: regular
+      iscommand: true
+      brand: Panorama
+    nexttasks:
+      '#none#':
+      - "38"
+    scriptarguments:
+      certificate_profile: {}
+      description:
+        simple: G-MineMeld-EDL
+      device-group: {}
+      name:
+        simple: G-MineMeld-EDL
+      recurring:
+        simple: hourly
+      type:
+        simple: ip
+      url:
+        simple: https://c2dafed9.paloaltonetworks-app.com/feeds/feedHCIPv4
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 720
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "37":
+    id: "37"
+    taskid: c1c75fe5-bc2c-46c9-8416-381c05cada58
+    type: regular
+    task:
+      id: c1c75fe5-bc2c-46c9-8416-381c05cada58
+      version: -1
+      name: Get MineMeld IPv4 EDL from Panorama/Firewall
+      description: Returns information for an external dynamic list
+      script: '|||panorama-get-edl'
+      type: regular
+      iscommand: true
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "40"
+    scriptarguments:
+      device-group: {}
+      name:
+        simple: G-MineMeld-EDL
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 592.5,
+          "y": 370
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "38":
+    id: "38"
+    taskid: bfd8103c-937a-4788-841f-8a6cfa4cc1ef
+    type: playbook
+    task:
+      id: bfd8103c-937a-4788-841f-8a6cfa4cc1ef
+      version: -1
+      name: PAN-OS Commit Configuration
+      playbookName: PAN-OS Commit Configuration
+      type: playbook
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "39"
+    separatecontext: true
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 895
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "39":
+    id: "39"
+    taskid: 3eda3c2f-d8cd-40a4-8f00-5b4b31b73eb2
+    type: regular
+    task:
+      id: 3eda3c2f-d8cd-40a4-8f00-5b4b31b73eb2
+      version: -1
+      name: panorama-get-edl
+      description: Returns a list of external dynamic lists.
+      script: '|||panorama-list-edls'
+      type: regular
+      iscommand: true
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "41"
+    scriptarguments:
+      device-group: {}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 480,
+          "y": 1070
+        }
+      }
+    note: true
+    timertriggers: []
+    ignoreworker: false
+  "40":
+    id: "40"
+    taskid: f5a7d5de-192a-45aa-850d-fb71761a8764
+    type: condition
+    task:
+      id: f5a7d5de-192a-45aa-850d-fb71761a8764
+      version: -1
+      name: Does MineMeld EDL exist?
+      type: condition
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#default#':
+      - "35"
+      "yes":
+      - "41"
+    separatecontext: false
+    conditions:
+    - label: "yes"
+      condition:
+      - - operator: containsGeneral
+          left:
+            value:
+              complex:
+                root: Panorama
+                accessor: EDL.Name
+            iscontext: true
+          right:
+            value:
+              simple: G-MineMeld-EDL
+    view: |-
+      {
+        "position": {
+          "x": 592.5,
+          "y": 545
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "41":
+    id: "41"
+    taskid: f89ab85f-a143-43be-889b-84840e694af8
+    type: regular
+    task:
+      id: f89ab85f-a143-43be-889b-84840e694af8
+      version: -1
+      name: Refresh EDL
+      description: Refreshes the specified external dynamic list.
+      script: '|||panorama-refresh-edl'
+      type: regular
+      iscommand: true
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "43"
+    scriptarguments:
+      device-group: {}
+      name:
+        simple: ${Panorama.EDL.Name}
+    continueonerror: true
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 592.5,
+          "y": 1245
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "43":
+    id: "43"
+    taskid: acf78703-0f7b-44bc-870c-3cbf96a2c0b9
+    type: title
+    task:
+      id: acf78703-0f7b-44bc-870c-3cbf96a2c0b9
+      version: -1
+      name: Done
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 377.5,
+          "y": 1420
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+view: |-
+  {
+    "linkLabelsPosition": {
+      "40_35_#default#": 0.73
+    },
+    "paper": {
+      "dimensions": {
+        "height": 1435,
+        "width": 1222.5,
+        "x": -250,
+        "y": 50
+      }
+    }
+  }
+inputs:
+- key: MM_IP
+  value:
+    simple: ${TwistlockIP}
+  required: false
+  description: ""
+outputs: []
+sourceplaybookid: 0e4e532d-7c07-4bd1-8de4-da3b74904c31

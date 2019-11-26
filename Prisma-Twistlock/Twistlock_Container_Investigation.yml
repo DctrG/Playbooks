@@ -1,0 +1,171 @@
+id: 963ddbb7-9d51-499e-87e4-67db74fb1835
+version: 29
+name: Twistlock Container Investigation
+starttaskid: "0"
+tasks:
+  "0":
+    id: "0"
+    taskid: f9fd4893-c68e-411a-869f-2197875bd41a
+    type: start
+    task:
+      id: f9fd4893-c68e-411a-869f-2197875bd41a
+      version: -1
+      name: ""
+      iscommand: false
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "1"
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 162.5,
+          "y": 50
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+  "1":
+    id: "1"
+    taskid: 14900f16-96ab-4665-8df1-5a1781d6edac
+    type: regular
+    task:
+      id: 14900f16-96ab-4665-8df1-5a1781d6edac
+      version: -1
+      name: Get container scan results
+      script: Twistlock_G|||twistlock-get-container-scan-results
+      type: regular
+      iscommand: true
+      brand: Twistlock_G
+    nexttasks:
+      '#none#':
+      - "2"
+    scriptarguments:
+      container-id:
+        complex:
+          root: ${incident
+          accessor: containername}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 162.5,
+          "y": 195
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    fieldMapping:
+    - incidentfield: Container Scan Results
+      output:
+        complex:
+          root: scanresults
+  "2":
+    id: "2"
+    taskid: 562c1a36-9646-4f8b-8f73-4c2b7a79b95b
+    type: regular
+    task:
+      id: 562c1a36-9646-4f8b-8f73-4c2b7a79b95b
+      version: -1
+      name: Get Image Scan Results
+      script: '|||twistlock-get-image-scan-results'
+      type: regular
+      iscommand: true
+      brand: ""
+    nexttasks:
+      '#none#':
+      - "3"
+    scriptarguments:
+      image-id:
+        complex:
+          root: incident
+          accessor: imageid
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 162.5,
+          "y": 370
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    fieldMapping:
+    - incidentfield: Image Scan Results
+      output:
+        complex:
+          root: imagescanresults
+  "3":
+    id: "3"
+    taskid: 826560bb-f9d3-45b5-8a19-e0d3dd9ffde0
+    type: regular
+    task:
+      id: 826560bb-f9d3-45b5-8a19-e0d3dd9ffde0
+      version: -1
+      name: Get any other alerts associated to this container
+      script: Twistlock_G|||twistlock-get-container-alerts
+      type: regular
+      iscommand: true
+      brand: Twistlock_G
+    nexttasks:
+      '#none#':
+      - "7"
+    scriptarguments:
+      container-id:
+        simple: ${incident.containerid}
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 162.5,
+          "y": 545
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+    fieldMapping:
+    - incidentfield: Related Alerts
+      output:
+        complex:
+          root: containeralerts
+  "7":
+    id: "7"
+    taskid: cb95081d-e5a7-4856-87de-27453d45115c
+    type: title
+    task:
+      id: cb95081d-e5a7-4856-87de-27453d45115c
+      version: -1
+      name: End
+      type: title
+      iscommand: false
+      brand: ""
+    separatecontext: false
+    view: |-
+      {
+        "position": {
+          "x": 162.5,
+          "y": 780
+        }
+      }
+    note: false
+    timertriggers: []
+    ignoreworker: false
+view: |-
+  {
+    "linkLabelsPosition": {},
+    "paper": {
+      "dimensions": {
+        "height": 795,
+        "width": 380,
+        "x": 162.5,
+        "y": 50
+      }
+    }
+  }
+inputs: []
+outputs: []
