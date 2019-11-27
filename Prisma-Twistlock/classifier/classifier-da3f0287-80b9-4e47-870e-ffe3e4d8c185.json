@@ -96,15 +96,26 @@
 						"transformers": [
 							{
 								"args": {
-									"from": {
+									"groups": {
 										"isContext": false,
 										"value": {
 											"complex": null,
-											"simple": "nc "
+											"simple": "1"
+										}
+									},
+									"keys": {
+										"isContext": false,
+										"value": null
+									},
+									"regex": {
+										"isContext": false,
+										"value": {
+											"complex": null,
+											"simple": "(\\s)(([a-z0-9]{1,}\\.){1,3}[a-z]{1,6})"
 										}
 									}
 								},
-								"operator": "substringFrom"
+								"operator": "RegexGroups"
 							}
 						]
 					},
